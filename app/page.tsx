@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import Image from 'next/image';
 
 // Add type imports
 type Libraries = ("places")[];
@@ -26,6 +27,8 @@ interface Message {
   timestamp: string;
 }
 
+// Using regular img tags for base64 images as Next.js Image component
+// doesn't support base64 sources without additional configuration
 const mapContainerStyle = {
   width: '100%',
   height: '400px'
@@ -188,7 +191,7 @@ export default function Dashboard() {
                       alt={`Detection at ${selectedDetection.location}`}
                       className="w-full h-40 object-cover rounded mb-3"
                     />
-                    <h3 className="font-semibold mb-2">Location: {selectedDetection.location}</h3>
+                    <h3 className="font-semibold mb-2 text-black">Location: {selectedDetection.location}</h3>
                     <p className="text-sm text-gray-600 mb-1">
                       Coordinates: {selectedDetection.coordinates!.latitude.toFixed(6)}, {selectedDetection.coordinates!.longitude.toFixed(6)}
                     </p>
@@ -237,10 +240,11 @@ export default function Dashboard() {
                 src={`data:image/jpeg;base64,${detection.image}`}
                 alt={`Detection at ${detection.location}`}
                 className="w-full h-48 object-cover rounded mb-4"
+                loading="lazy"
               />
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-lg font-semibold">Location: {detection.location}</h3>
+                  <h3 className="text-lg font-semibold text-black">Location: {detection.location}</h3>
                   {detection.coordinates && (
                     <p className="text-sm text-gray-600">
                       Coordinates: {detection.coordinates.latitude.toFixed(6)}, {detection.coordinates.longitude.toFixed(6)}
